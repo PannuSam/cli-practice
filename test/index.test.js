@@ -9,15 +9,22 @@
 // of the function. In most cases the subject of a test will be defined in a separate
 // file. In this case we've defined the function and the corresponding test in the
 // same file for illustrative and learning purposes.
+const {isAmountInvalid, isCurrencyInvalid} = require('../src/validator-function');
 
-function myCoolFunction() {
-  return 'Wow, what a cool function';
-}
+describe('isAmountInvalid()', () => {
+  test('should return true when amount is undefined', () => {
+    let amount;
 
-describe('myCoolFunction()', () => {
-  test('should return the message: "Wow, what a cool function"', () => {
-    const result = myCoolFunction();
+    const result = isAmountInvalid(amount);
+    expect(result).toBe(true);
+  });
+});
 
-    expect(result).toBe('Wow, what a cool function');
+describe('isCurrencyInvalid()', () => {
+  test('should return true when currency is undefined', () => {
+    let currency;
+
+    const result = isCurrencyInvalid(currency);
+    expect(result).toBe(true);
   });
 });

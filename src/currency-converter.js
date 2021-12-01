@@ -2,6 +2,8 @@
 // To run the program use the `node` command followed by the name of this file.
 // ie. `node currency-converter.js`.
 
+const { isAmountInvalid, isCurrencyInvalid } = require("./validator-function");
+
 // This file has been split up into several sections, each of which focuses on a
 // portion of the program. Completing each of these sections in order should result
 // in a functional, testable program. However, please free to approach the problem
@@ -14,6 +16,7 @@
 // In this step we will capture the command line  information supplied by the user.
 
 // We will store each piece of information in a dedicated variable for later use.
+
 const amount = process.argv[2];
 const initialCurrency = process.argv[3];
 const targetCurrency = process.argv[4];
@@ -27,15 +30,17 @@ console.log("Amount :", amount ," ,Initial currency :", initialCurrency, " ,Targ
 
 // If any of the required information is missing, display a meaningful message
 // and exit the program.
-if (amount === undefined || amount<0){
+
+
+if (isAmountInvalid(amount)){
     console.error("Oops... the amount must be greater than 0. Received :", amount);
     process.exit;
 }
-if (initialCurrency === undefined){
+if (isCurrencyInvalid(initialCurrency)){
     console.error("Oops... You must provide a value for initial currency. Received :", amount);
     process.exit;
 }
-if (targetCurrency === undefined){
+if (isCurrencyInvalid(targetCurrency)){
     console.error("Oops... You must provide a value for target currency. Received :", amount);
     process.exit;
 }
