@@ -51,8 +51,8 @@ if (targetCurrency === undefined){
 
 // The conversion rates do not have to be accurate, athough this resource contains
 // up-to-date rate information: https://www.xe.com/
-let CAD= 1;
-let USD= 0.78;
+let CAD= 0.78;
+let USD= 1;
 
 // --------------------------------------------------
 // Step 4: Ensure that a conversion rate exists
@@ -82,8 +82,14 @@ if (supportedCurrencies.includes(targetCurrency.toUpperCase()) === false){
 // information, and that a rate exists for each of the currencies.
 
 // Now we will compute the rate, apply it to the amount, and capture the result.
+let convertedAmount;
 
-
+if (initialCurrency.toUpperCase() === 'USD' && targetCurrency.toUpperCase() === 'CAD'){
+    convertedAmount = amount / CAD;
+}else if(initialCurrency.toUpperCase() === 'CAD' && targetCurrency.toUpperCase() === 'USD'){
+    convertedAmount = amount * CAD
+}
+console.log("Converted amount is :",convertedAmount);
 
 // --------------------------------------------------
 // Step 6: Display results
@@ -92,3 +98,5 @@ if (supportedCurrencies.includes(targetCurrency.toUpperCase()) === false){
 
 // This message should also include the original amount and currency information
 // supplied by the user.
+console.log(`You submitted ${amount} ${initialCurrency}`);
+console.log(`This is equal to ${convertedAmount} ${targetCurrency}`);
