@@ -56,9 +56,11 @@ if (isCurrencyInvalid(targetCurrency)){
 
 // The conversion rates do not have to be accurate, athough this resource contains
 // up-to-date rate information: https://www.xe.com/
-let CAD= 0.78;
-let USD= 1;
-
+var currencyRate = {
+                'USD': {'CAD': 1.3, 'EUR': 0.02}, 
+                'CAD': {'USD': 0.8, 'EUR': 0.7}, 
+                'EUR': {'USD': 1.1, 'CAD': 1.4}
+            };
 // --------------------------------------------------
 // Step 4: Ensure that a conversion rate exists
 // --------------------------------------------------
@@ -69,7 +71,8 @@ let USD= 1;
 // warning message and exit the program.
 const supportedCurrencies= [
     'USD',
-    'CAD'
+    'CAD',
+    'EUR'
 ];
 if (supportedCurrencies.includes(initialCurrency.toUpperCase()) === false){
     console.error("Sorry, the initial currency provided is unsupported. The supported currencies are :", supportedCurrencies);
@@ -89,12 +92,23 @@ if (supportedCurrencies.includes(targetCurrency.toUpperCase()) === false){
 // Now we will compute the rate, apply it to the amount, and capture the result.
 let convertedAmount;
 
-if (initialCurrency.toUpperCase() === 'USD' && targetCurrency.toUpperCase() === 'CAD'){
-    convertedAmount = amount / CAD;
-}else if(initialCurrency.toUpperCase() === 'CAD' && targetCurrency.toUpperCase() === 'USD'){
-    convertedAmount = amount * CAD
+if (supportedCurrencies.includes(initialCurrency.toUpperCase()) && supportedCurrencies.includes(targetCurrency.toUpperCase())){
+    convertCurrency(initialCurrency.toUpperCase(), targetCurrency.toUpperCase(), amount);
 }
-console.log("Converted amount is :",convertedAmount);
+
+function convertCurrency(initialCurrency, targetCurrency, amount) {
+try{
+    if (initialCurrency === targetCurrency){
+        convertedAmount = amount;
+    } else {
+        convertedAmount = amount * currencyRate[initialCurrency][targetCurrency];
+  }
+  }catch(err) {
+    convertedAmount = amount * (1 / currencyRate[targetCurrency][initialCurrency]);
+  }
+
+
+    console.log("Converted amount is :",convertedAmount);
 
 // --------------------------------------------------
 // Step 6: Display results
@@ -103,5 +117,6 @@ console.log("Converted amount is :",convertedAmount);
 
 // This message should also include the original amount and currency information
 // supplied by the user.
-console.log(`You submitted ${amount} ${initialCurrency}`);
-console.log(`This is equal to ${convertedAmount} ${targetCurrency}`);
+    console.log(`You submitted ${amount} ${initialCurrency}`);
+    console.log(`This is equal to ${convertedAmount} ${targetCurrency}`);
+}
